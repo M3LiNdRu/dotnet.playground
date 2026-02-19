@@ -1,0 +1,18 @@
+services:
+  async-calls-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: async-calls-demo
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    restart: unless-stopped
+    networks:
+      - async-calls-network
+
+networks:
+  async-calls-network:
+    driver: bridge

@@ -1,0 +1,50 @@
+@AsyncCallsDemo_HostAddress = http://localhost:5000
+
+# Get API info
+GET {{AsyncCallsDemo_HostAddress}}/
+Accept: application/json
+
+###
+
+# Test provider endpoint
+GET {{AsyncCallsDemo_HostAddress}}/provider/pricing?delayMs=3000
+Accept: application/json
+
+###
+
+# PoC A: Bad endpoint (doesn't propagate cancellation)
+GET {{AsyncCallsDemo_HostAddress}}/offers/bad
+Accept: application/json
+
+###
+
+# PoC A: Good endpoint (properly propagates cancellation)
+GET {{AsyncCallsDemo_HostAddress}}/offers/good
+Accept: application/json
+
+###
+
+# PoC B: Bad loop (doesn't check cancellation)
+GET {{AsyncCallsDemo_HostAddress}}/combinations/bad?days=30
+Accept: application/json
+
+###
+
+# PoC B: Good loop (checks cancellation)
+GET {{AsyncCallsDemo_HostAddress}}/combinations/good?days=30
+Accept: application/json
+
+###
+
+# PoC C: Linked cancellation with timeout
+GET {{AsyncCallsDemo_HostAddress}}/offers/timeout?timeoutMs=2000&providerDelayMs=5000
+Accept: application/json
+
+###
+
+# Task.WhenAll aggregation
+GET {{AsyncCallsDemo_HostAddress}}/offers/aggregate?providerCount=3&providerDelayMs=2000
+Accept: application/json
+
+###
+
