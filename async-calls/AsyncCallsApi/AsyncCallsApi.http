@@ -1,0 +1,6 @@
+@AsyncCallsApi_HostAddress = http://localhost:5130
+
+GET {{AsyncCallsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
