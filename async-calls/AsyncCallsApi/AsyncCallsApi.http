@@ -1,6 +1,44 @@
-@AsyncCallsApi_HostAddress = http://localhost:5130
+@AsyncCallsApi_HostAddress = http://localhost:5000
 
-GET {{AsyncCallsApi_HostAddress}}/weatherforecast/
+### Provider endpoint - simulates slow external API
+GET {{AsyncCallsApi_HostAddress}}/provider/pricing?delayMs=1000
 Accept: application/json
 
 ###
+
+### PoC A - BAD: Does NOT propagate cancellation token
+GET {{AsyncCallsApi_HostAddress}}/offers/bad
+Accept: application/json
+
+###
+
+### PoC A - GOOD: Propagates cancellation token
+GET {{AsyncCallsApi_HostAddress}}/offers/good
+Accept: application/json
+
+###
+
+### PoC B - BAD: Does NOT check cancellation in loop
+GET {{AsyncCallsApi_HostAddress}}/combinations/bad
+Accept: application/json
+
+###
+
+### PoC B - GOOD: Checks cancellation token in loop
+GET {{AsyncCallsApi_HostAddress}}/combinations/good
+Accept: application/json
+
+###
+
+### PoC C: Linked cancellation (request OR timeout)
+GET {{AsyncCallsApi_HostAddress}}/offers/timeout?timeoutMs=3000
+Accept: application/json
+
+###
+
+### Task.WhenAll: Parallel provider aggregation
+GET {{AsyncCallsApi_HostAddress}}/offers/parallel
+Accept: application/json
+
+###
+
