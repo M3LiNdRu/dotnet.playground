@@ -95,7 +95,7 @@ public async Task<string> FetchData()
 app.MapGet("/data", () =>
 {
     var httpClient = new HttpClient();
-    var result = httpClient.GetStringAsync("https://slow-api.com/data").Result; // BLOCKS!
+    var result = httpClient.GetStringAsync("https://slow-api.com/data").GetAwaiter().GetResult(); // BLOCKS!
     return result;
 });
 
@@ -116,6 +116,7 @@ In the BAD example, if 100 requests arrive and each takes 2 seconds:
 
 When a method simply returns another async method's `Task` without doing any additional work before or after the `await`, you **don't need `async`/`await`**.
 
+
 ### When NOT to use async/await
 
 ```csharp
@@ -133,6 +134,8 @@ public Task<string> GetDataAsync(string url)
 ```
 
 ### When you MUST use async/await
+
+**Best practice**: Use async/await when you need try/catch, otherwise direct return is fine.
 
 ```csharp
 // ✅ REQUIRED: Need to await to use try/catch
