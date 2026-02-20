@@ -54,7 +54,7 @@ app.MapGet("/offers/bad", async (IHttpClientFactory httpClientFactory, HttpConte
     try
     {
         // NOTE: We're NOT passing context.RequestAborted to GetAsync
-        var response = await httpClient.GetAsync("http://localhost:5000/provider/pricing?delayMs=5000");
+        var response = await httpClient.GetAsync("http://localhost:5000/provider/pricing?delayMs=10000");
         var content = await response.Content.ReadAsStringAsync();
         
         stopwatch.Stop();
@@ -87,7 +87,7 @@ app.MapGet("/offers/good", async (IHttpClientFactory httpClientFactory, HttpCont
     try
     {
         // GOOD: Passing cancellationToken to GetAsync
-        var response = await httpClient.GetAsync("http://localhost:5000/provider/pricing?delayMs=5000", cancellationToken);
+        var response = await httpClient.GetAsync("http://localhost:5000/provider/pricing?delayMs=10000", cancellationToken);
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         
         stopwatch.Stop();
